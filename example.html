@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人博客</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+       .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 32px;
+        }
+        header p {
+            color: #666;
+            font-size: 16px;
+        }
+       .about-me {
+            margin-top: 30px;
+        }
+       .about-me h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+       .about-me p {
+            color: #333;
+        }
+       .recent-music {
+            margin-top: 30px;
+        }
+       .recent-music h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+       .song {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            padding: 15px 0;
+        }
+       .song img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 15px;
+        }
+       .song-info {
+            flex: 1;
+        }
+       .song-info h3 {
+            margin: 0 0 5px 0;
+            font-size: 18px;
+        }
+       .song-info p {
+            margin: 0;
+            font-size: 14px;
+            color: #666;
+        }
+       .blog-posts {
+            margin-top: 30px;
+        }
+       .blog-posts h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+       .post {
+            margin-bottom: 30px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 20px;
+        }
+       .post h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+       .post p {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>欢迎来到我的个人博客</h1>
+            <p>我与万物，皆是自由诗</p>
+        </header>
+        <section class="about-me">
+            <h2>关于我</h2>
+            <p>这里写下你的个人介绍，比如你的兴趣爱好、职业、梦想等等。你可以详细描述自己的经历，让读者更好地了解你。</p>
+        </section>
+        <section class="recent-music">
+            <h2>最近在听</h2>
+            <div id="songs"></div>
+        </section>
+        <section class="blog-posts">
+            <h2>博客文章</h2>
+            <div class="post">
+                <h3>第一篇博客文章标题</h3>
+                <p>这里是第一篇博客文章的内容，可以简要介绍文章的核心观点或主要内容。</p>
+            </div>
+            <div class="post">
+                <h3>第二篇博客文章标题</h3>
+                <p>这里是第二篇博客文章的内容，可以分享一些有趣的故事、经验或见解。</p>
+            </div>
+        </section>
+    </div>
+    <script>
+        fetch('info.json')
+           .then(response => response.json())
+           .then(data => {
+                const songsDiv = document.getElementById('songs');
+                data.forEach(song => {
+                    const songElement = document.createElement('div');
+                    songElement.classList.add('song');
+
+                    const img = document.createElement('img');
+                    img.src = song.picUrl;
+                    img.alt = song.name;
+
+                    const songInfo = document.createElement('div');
+                    songInfo.classList.add('song-info');
+
+                    const h3 = document.createElement('h3');
+                    h3.textContent = song.name;
+
+                    const singerP = document.createElement('p');
+                    singerP.textContent = `歌手：${song.singer}`;
+
+                    const idP = document.createElement('p');
+                    idP.textContent = `歌曲ID：${song.id}`;
+
+                    songInfo.appendChild(h3);
+                    songInfo.appendChild(singerP);
+                    songInfo.appendChild(idP);
+
+                    songElement.appendChild(img);
+                    songElement.appendChild(songInfo);
+
+                    songsDiv.appendChild(songElement);
+                });
+            })
+           .catch(error => console.error('获取歌曲信息失败:', error));
+    </script>
+</body>
+</html>
